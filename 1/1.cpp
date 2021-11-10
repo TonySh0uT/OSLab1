@@ -40,7 +40,7 @@ std::list<std::string> searchInFiles(bool(*)(const std::string&,const std::strin
 				result.push_back(searchFileName);
 			}			
 		}
-		std::string searchFileName = va_arg(args, std::string);
+		std::string searchFileName = va_arg(args, char*);
 	}
 	va_end(args);
 	return result;
