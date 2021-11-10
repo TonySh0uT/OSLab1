@@ -2,19 +2,49 @@
 #include <stdarg.h>
 #include <string>
 #include <list>
+#include <fstream>
+#include <cstdarg>
+#include <algorithm>
 
 
 
 
-bool searchFunc(std::string& substr, std::string& sourceString) {
-
-
-
-
+bool searchFunc(const std::string& substr,const std::string& sourceString) {
+	size_t position = sourceString.find(substr);
+	if (position != std::string::npos)
+		return true;
+		std::cout << position;
+		return false;
 }
 
 
+std::list<std::string> searchInFiles(bool(*)(const std::string&,const std::string&), const std::string& substr, int filesCount,const std::string fileName,...) {
 
+	std::va_list args;
+	std::list<std::string> result;
+	va_start(args, fileName);
+	for (int i = 0; i < filesCount; i++)
+	{
+		std::string buffer;
+		std::string wholeFile;
+		std::string searchFileName = va_arg(args, std::string);
+		std::ifstream inputFile(fileName);
+		if (inputFile.is_open()) {
+			
+			while (std::getline(inputFile, buffer))
+			{
+				wholeFile += buffer;
+				wholeFile.push_back('\n');
+			}
+			if (searchFunc(substr, wholeFile)) {
+				result.push_back(searchFileName);
+			}
+			searchFileName = va_arg(args, std::string);
+		}
+	}
+	va_end(args);
+	return result;
+}
 
 
 
@@ -24,6 +54,12 @@ bool searchFunc(std::string& substr, std::string& sourceString) {
 
 int main()
 {
+	std::list<std::string> result = searchInFiles(searchFunc, std::string(" "), 2, std::string("1"),std::string("2"));
+	for (std::string resultElem : result) {
+		std::cout << resultElem << "\t";
+	}
+
+
 
 
 
