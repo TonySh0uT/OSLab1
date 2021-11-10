@@ -38,9 +38,9 @@ std::list<std::string> searchInFiles(bool(*)(const std::string&,const std::strin
 			}
 			if (searchFunc(substr, wholeFile)) {
 				result.push_back(searchFileName);
-			}
-			std::string searchFileName = va_arg(args, std::string);
+			}			
 		}
+		std::string searchFileName = va_arg(args, std::string);
 	}
 	va_end(args);
 	return result;
