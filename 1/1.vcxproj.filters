@@ -26,5 +26,8 @@
     <Text Include="2">
       <Filter>Исходные файлы</Filter>
     </Text>
+    <Text Include="3">
+      <Filter>Исходные файлы</Filter>
+    </Text>
   </ItemGroup>
 </Project>

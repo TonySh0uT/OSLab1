@@ -18,7 +18,7 @@ bool searchFunc(const std::string& substr,const std::string& sourceString) {
 }
 
 
-std::list<std::string> searchInFiles(bool(*)(const std::string&,const std::string&), const std::string& substr, int filesCount,const std::string fileName,...) {
+std::list<std::string> searchInFiles(bool(*)(const std::string&,const std::string&), const std::string& substr, int filesCount,const char* fileName,...) {
 
 	std::va_list args;
 	std::list<std::string> result;
@@ -27,7 +27,7 @@ std::list<std::string> searchInFiles(bool(*)(const std::string&,const std::strin
 	{
 		std::string buffer;
 		std::string wholeFile;
-		std::string searchFileName = va_arg(args, std::string);
+		std::string searchFileName = fileName;
 		std::ifstream inputFile(fileName);
 		if (inputFile.is_open()) {
 			
@@ -39,7 +39,7 @@ std::list<std::string> searchInFiles(bool(*)(const std::string&,const std::strin
 			if (searchFunc(substr, wholeFile)) {
 				result.push_back(searchFileName);
 			}
-			searchFileName = va_arg(args, std::string);
+			std::string searchFileName = va_arg(args, std::string);
 		}
 	}
 	va_end(args);
@@ -54,7 +54,7 @@ std::list<std::string> searchInFiles(bool(*)(const std::string&,const std::strin
 
 int main()
 {
-	std::list<std::string> result = searchInFiles(searchFunc, std::string(" "), 2, std::string("1"),std::string("2"));
+	std::list<std::string> result = searchInFiles(searchFunc, std::string(" "), 3, (char*)("1"), (char*)("2"), (char*)("3"));
 	for (std::string resultElem : result) {
 		std::cout << resultElem << "\t";
 	}
